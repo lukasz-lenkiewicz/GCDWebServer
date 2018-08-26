@@ -714,7 +714,7 @@ static inline NSString* _EncodeBase64(NSString* string) {
 - (void)_didEnterBackground:(NSNotification*)notification {
   GWS_DCHECK([NSThread isMainThread]);
   GWS_LOG_DEBUG(@"Did enter background");
-  if ((_backgroundTask == UIBackgroundTaskInvalid) && _source4) {
+  if (_backgroundTask == UIBackgroundTaskInvalid) { // && _source4) {
     [self _stop];
   }
 }
