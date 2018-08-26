@@ -203,6 +203,7 @@ static void _ExecuteMainThreadRunLoopSources() {
 // Always called on main thread
 - (void)startBackgroundTask {
   GWS_DCHECK([NSThread isMainThread]);
+  [self endBackgroundTask];
   if (_backgroundTask == UIBackgroundTaskInvalid) {
     GWS_LOG_DEBUG(@"Did start background task");
     _backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
