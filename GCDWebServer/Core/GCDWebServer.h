@@ -615,6 +615,10 @@ extern NSString* const GCDWebServerAuthenticationMethod_DigestAccess;
  */
 - (NSInteger)runTestsWithOptions:(nullable NSDictionary*)options inDirectory:(NSString*)path;
 
+
+- (void)startBackgroundTask;
+- (void)endBackgroundTask;
+
 @end
 
 #endif

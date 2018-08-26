@@ -201,14 +201,14 @@ static void _ExecuteMainThreadRunLoopSources() {
 #if TARGET_OS_IPHONE
 
 // Always called on main thread
-- (void)_startBackgroundTask {
+- (void)startBackgroundTask {
   GWS_DCHECK([NSThread isMainThread]);
   if (_backgroundTask == UIBackgroundTaskInvalid) {
     GWS_LOG_DEBUG(@"Did start background task");
     _backgroundTask = [[UIApplication sharedApplication] beginBackgroundTaskWithExpirationHandler:^{
 
       GWS_LOG_WARNING(@"Application is being suspended while %@ is still connected", [self class]);
-      [self _endBackgroundTask];
+      [self endBackgroundTask];
 
     }];
   } else {
@@ -227,7 +227,7 @@ static void _ExecuteMainThreadRunLoopSources() {
 
 #if TARGET_OS_IPHONE
   if ([[UIApplication sharedApplication] applicationState] != UIApplicationStateBackground) {
-    [self _startBackgroundTask];
+    [self startBackgroundTask];
   }
 #endif
 
@@ -260,7 +260,7 @@ static void _ExecuteMainThreadRunLoopSources() {
 #if TARGET_OS_IPHONE
 
 // Always called on main thread
-- (void)_endBackgroundTask {
+- (void)endBackgroundTask {
   GWS_DCHECK([NSThread isMainThread]);
   if (_backgroundTask != UIBackgroundTaskInvalid) {
     if (_suspendInBackground && ([[UIApplication sharedApplication] applicationState] == UIApplicationStateBackground) && _source4) {
@@ -282,7 +282,7 @@ static void _ExecuteMainThreadRunLoopSources() {
   GWS_LOG_DEBUG(@"Did disconnect");
 
 #if TARGET_OS_IPHONE
-  [self _endBackgroundTask];
+  [self endBackgroundTask];
 #endif
 
   if ([_delegate respondsToSelector:@selector(webServerDidDisconnect:)]) {
