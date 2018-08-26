@@ -113,6 +113,9 @@ NS_ASSUME_NONNULL_BEGIN
  */
 @property(nonatomic, copy) NSString* title;
 
+- (void)startBackgroundTask;
+- (void)endBackgroundTask;
+
 /**
  *  Sets the header for the uploader web interface.
  *
