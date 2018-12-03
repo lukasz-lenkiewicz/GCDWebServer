@@ -321,7 +321,7 @@ NS_ASSUME_NONNULL_END
       dispatch_async(dispatch_get_main_queue(), ^{
           [self.delegate webUploader:self didUploadFileAtPath:absolutePath deviceId:deviceId];
       });
-
+  }
   return [GCDWebServerDataResponse responseWithJSONObject:@{} contentType:contentType];
 }
 
