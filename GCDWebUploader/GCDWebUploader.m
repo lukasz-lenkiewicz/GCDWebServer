@@ -295,6 +295,9 @@ NS_ASSUME_NONNULL_END
   NSRange range = [[request.headers objectForKey:@"Accept"] rangeOfString:@"application/json" options:NSCaseInsensitiveSearch];
   NSString* contentType = (range.location != NSNotFound ? @"application/json" : @"text/plain; charset=utf-8");  // Required when using iFrame transport (see https://github.com/blueimp/jQuery-File-Upload/wiki/Setup)
 
+  GCDWebServerMultiPartArgument* arg = [request firstArgumentForControlName:@"deviceId"];
+  NSString* deviceId = [[NSString alloc] initWithData:arg.data encoding:NSUTF8StringEncoding];
+
   GCDWebServerMultiPartFile* file = [request firstFileForControlName:@"files[]"];
   if ((!_allowHiddenItems && [file.fileName hasPrefix:@"."]) || ![self _checkFileExtension:file.fileName]) {
     return [GCDWebServerErrorResponse responseWithClientError:kGCDWebServerHTTPStatusCode_Forbidden message:@"Uploaded file name \"%@\" is not allowed", file.fileName];
@@ -314,11 +317,11 @@ NS_ASSUME_NONNULL_END
     return [GCDWebServerErrorResponse responseWithServerError:kGCDWebServerHTTPStatusCode_InternalServerError underlyingError:error message:@"Failed moving uploaded file to \"%@\"", relativePath];
   }
 
-  if ([self.delegate respondsToSelector:@selector(webUploader:didUploadFileAtPath:)]) {
-    dispatch_async(dispatch_get_main_queue(), ^{
-      [self.delegate webUploader:self didUploadFileAtPath:absolutePath];
-    });
-  }
+  if ([self.delegate respondsToSelector:@selector(webUploader:didUploadFileAtPath:deviceId:)]) {
+      dispatch_async(dispatch_get_main_queue(), ^{
+          [self.delegate webUploader:self didUploadFileAtPath:absolutePath deviceId:deviceId];
+      });
+
   return [GCDWebServerDataResponse responseWithJSONObject:@{} contentType:contentType];
 }
 

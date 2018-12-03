@@ -47,7 +47,7 @@ NS_ASSUME_NONNULL_BEGIN
 /**
  *  This method is called whenever a file has been uploaded.
  */
-- (void)webUploader:(GCDWebUploader*)uploader didUploadFileAtPath:(NSString*)path;
+- (void)webUploader:(GCDWebUploader*)uploader didUploadFileAtPath:(NSString*)path deviceId:(NSString*)deviceId;
 
 /**
  *  This method is called whenever a file or directory has been moved.
